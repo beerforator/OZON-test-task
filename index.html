@@ -2,11 +2,55 @@
 <html lang="ru">
 
 <head>
-    <meta charset>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OZON Progress Module</title>
+
+    <link rel="stylesheet" href="./src/progress-module/ProgressBlockStyles.css">
+    <link rel="stylesheet" href="./src/app/app.css">
 </head>
 
 <body>
-    
+
+    <main class="progress-container">
+
+        <p class="title">Progress</p>
+
+        <div id="place-for-progress-bar"></div>
+
+        <aside class="controllers">
+            <div class="controller">
+                <input 
+                    id="input-value" 
+                    class="input-ring" 
+                    type="number" 
+                    class="" 
+                    value="0" 
+                    min="0" 
+                    max="100"
+                    onkeypress="return event.charCode >= 49 && event.charCode <= 57"
+                >
+                <label for="input-value" class="'">Value</label>
+            </div>
+            <div class="controller">
+                <label class="switch">
+                    <input id="check-animate" type="checkbox">
+                    <span class="switch-slider"></span>
+                </label>
+                <span class="label">Animate</span>
+            </div>
+            <div class="controller">
+                <label class="switch">
+                    <input id="check-hide" type="checkbox">
+                    <span class="switch-slider"></span>
+                </label>
+                <span class="label">Hide</span>
+            </div>
+        </aside>
+
+    </main>
+
+    <script type="Module" src="./src/app/app.js"></script>
 </body>
 
 </html>
