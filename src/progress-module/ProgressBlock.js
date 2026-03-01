@@ -1,8 +1,10 @@
 export default class ProgressBlock {
-    constructor(container) {
+    constructor(container, options = {}) {
         if (!container) throw newError('')
 
         this.container = container
+
+        this.size = options.size || 140
 
         this.state = {
             percent: 0,
@@ -22,26 +24,36 @@ export default class ProgressBlock {
     }
 
     _render() {
-        this.container.innerHTML = `
-            <div class="progress-block">
-                <svg class="progress-block-svg" viewbox="0 0 100 100">
-                    <circle 
-                        class="progress-bar-bckgrnd" 
-                        r="${this.params.radius}" 
-                        cx="${this.params.center}" 
-                        cy="${this.params.center}" 
-                    />    
-                    <circle 
-                        class="progress-bar" 
-                        r="${this.params.radius}" 
-                        cx="${this.params.center}" 
-                        cy="${this.params.center}" 
-                        stroke-dashoffset="${this.len}"
-                        stroke-dasharray="${this.len}"
-                    />
-                </svg>
-            </div>
-        `;
+        this.container.style.width = this.size + 'px'
+        this.container.style.height = this.size + 'px'
+
+        const wrapper = document.createElement('div')
+        wrapper.classList.add('progress-block')
+
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+        svg.classList.add("progress-block-svg")
+        svg.setAttribute("viewBox", "0 0 100 100")
+
+        const bckgrnd_circle = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+        bckgrnd_circle.classList.add('progress-bar-bckgrnd')
+        bckgrnd_circle.setAttribute("cx", this.params.center)
+        bckgrnd_circle.setAttribute("cy", this.params.center)
+        bckgrnd_circle.setAttribute("r", this.params.radius)
+
+        const bar_circle = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+        bar_circle.classList.add('progress-bar')
+        bar_circle.setAttribute("cx", this.params.center)
+        bar_circle.setAttribute("cy", this.params.center)
+        bar_circle.setAttribute("r", this.params.radius)
+        bar_circle.setAttribute("stroke-dashoffset", this.len)
+        bar_circle.setAttribute("stroke-dasharray", this.len)
+
+        svg.appendChild(bckgrnd_circle)
+        svg.appendChild(bar_circle)
+        wrapper.appendChild(svg)
+
+        this.container.innerHTML = ''
+        this.container.appendChild(wrapper)
     }
 
     _cacheNodes() {
@@ -70,6 +82,7 @@ export default class ProgressBlock {
 
     setHidden(isHidden) {
         this.state.isHidden = !!isHidden
-        this.nodes.root.classList.toggle('progress-block--hidden', this.state.isHidden)
+        // this.nodes.root.classList.toggle('progress-block--hidden', this.state.isHidden)
+        this.container.classList.toggle('progress-block--hidden', this.state.isHidden);
     }
 }
